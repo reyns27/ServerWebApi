@@ -15,12 +15,7 @@ export class AppController {
     private readonly appService: AppService,
     private authService: AuthService,
   ) {}
-
-  @Get()
-  getHello(@Res() res: Response) {
-     res.redirect('/api');
-  }
-
+  
   @ApiTags('auth')
   @Post('login')
   async login(@Body() params: AuthDto):Promise<ApiResponse<HttpException | AuthResponse>>{
