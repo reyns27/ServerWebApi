@@ -1,11 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { MinLength } from "class-validator";
+import { MaxLength, MinLength } from "class-validator";
 
 export class CreateRolDto {
     @ApiProperty()
+    @MaxLength(50)
     @MinLength(2)
-    Code: string;
+    Name: string;
   
+    @MaxLength(100)
     @ApiProperty()
     Description: string;
     @ApiProperty()

@@ -6,8 +6,8 @@ export class Rol {
 @PrimaryGeneratedColumn()
   Id: number;
 
-  @Column({ length: 9, nullable: false })
-  Code: string;
+  @Column({ length: 50, nullable: false, unique:true })
+  Name: string;
 
   @Column({ length: 50, nullable: false })
   Description: string;
