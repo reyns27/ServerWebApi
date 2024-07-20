@@ -1,18 +1,19 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { RolService } from "src/rol/rol.service";
-import { Repository } from "typeorm";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from "./entities/user.entity";
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RolService } from 'src/rol/rol.service';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { ResetPasswordDto } from './dto/resetPasswordDto';
 
 @Injectable()
 export class UserService {
   constructor(
     private rolServices: RolService,
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) { }
+  ) {}
 
   //Create
   async create(createUserDto: CreateUserDto) {
@@ -26,7 +27,8 @@ export class UserService {
       },
     });
 
-    if (newUser) return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
+    if (newUser)
+      return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
     const Hash = bcrypt.hashSync(createUserDto.password, 10);
     const result = this.usersRepository.create({
       ...createUserDto,
@@ -39,14 +41,17 @@ export class UserService {
 
   //*-----------//GetAll------------------*/
   findAll() {
-    return this.usersRepository.find({ select: { password: false }, relations: ['rol'] });
+    return this.usersRepository.find({
+      select: { password: false },
+      relations: ['rol'],
+    });
   }
 
   //*-----------//Get Id------------------*/
   findOne(id: number) {
     return this.usersRepository.findOne({
       select: {
-        password: false
+        password: false,
       },
       where: {
         Id: id,
@@ -59,7 +64,7 @@ export class UserService {
   getUser(email: string) {
     return this.usersRepository.findOne({
       select: {
-        password: false
+        password: false,
       },
       where: {
         email: email,
@@ -94,5 +99,27 @@ export class UserService {
   //*-----------/Delete------------------*/
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto):Promise<User> {
+    const { Id, NewPassword, Password } = resetPasswordDto;
+    console.log('entro 1')
+    try {
+      let user = await this.findOne(Id);
+      console.log('entro 2')
+      const Hash = bcrypt.hashSync(Password, 10);
+      if (user || user.password == Hash) {
+        console.log('entro')
+        const newHash = bcrypt.hashSync(NewPassword, 10);
+        this.usersRepository.update(Id, { password: newHash });
+        return await this.findOne(Id);
+      }
+
+      throw new HttpException('USER_NOT_UPDATE', HttpStatus.EXPECTATION_FAILED);
+    } catch (error) {
+      throw new HttpException('USER_NOT_UPDATE', HttpStatus.EXPECTATION_FAILED, {
+        cause:error
+      });
+    }
   }
 }
