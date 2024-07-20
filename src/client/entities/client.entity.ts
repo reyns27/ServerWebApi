@@ -19,9 +19,22 @@ export class Client {
 
     @Column({ length: 50, nullable: true })
     phone: string;
+
+    @Column('date',{nullable:true})
+    date: Date;
+
+    @Column('char', {nullable:true})
+    sex:string;
+
+    @Column({length:100, nullable:true})
+    nationality:string;
+
+    @Column({type:'decimal', precision:16, scale:2, default:0.00})
+    income:number;
   
     @Column('int',{ default:0})
     status: number;
+
   
     @CreateDateColumn()
     createdAt: Date;

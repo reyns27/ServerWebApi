@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { MinLength, MaxLength, IsEmail, IsNumber, isPhoneNumber, IsPhoneNumber } from "class-validator";
+import { MinLength, MaxLength, IsEmail, IsNumber, isPhoneNumber, IsPhoneNumber, IsIn, IsOptional, IsDate } from "class-validator";
 
 export class CreateClientDto{
 
@@ -24,6 +24,32 @@ export class CreateClientDto{
   @ApiProperty()
   @IsPhoneNumber()
   phone: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsIn(['M','F'])
+  sex: string;
+
+  @ApiProperty()
+  @IsDate()
+  @IsOptional()
+  date: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @MaxLength(100)
+  @MinLength(3)
+  nationality: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber({maxDecimalPlaces:2})
+  @MinLength(3)
+  income: number;
+
+
+
+  
 
 
 }
