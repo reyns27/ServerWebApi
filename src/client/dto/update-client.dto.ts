@@ -47,7 +47,6 @@ export class UpdateClientDto {
   
     @ApiProperty()
     @IsOptional()
-    @IsNumber({maxDecimalPlaces:2})
     @MinLength(3)
     income: number;
 
