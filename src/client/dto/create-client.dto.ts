@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { MinLength, MaxLength, IsEmail, IsNumber, isPhoneNumber, IsPhoneNumber, IsIn, IsOptional, IsDate } from "class-validator";
+import { MinLength, MaxLength, IsEmail, IsNumber, isPhoneNumber, IsPhoneNumber, IsIn, IsOptional, IsDate, IsJSON, IsObject } from "class-validator";
+import { referenceCLient } from "./reference-client.dto";
+
 
 export class CreateClientDto{
 
@@ -31,7 +33,6 @@ export class CreateClientDto{
   sex: string;
 
   @ApiProperty()
-  @IsDate()
   @IsOptional()
   date: string;
 
@@ -43,13 +44,33 @@ export class CreateClientDto{
 
   @ApiProperty()
   @IsOptional()
-  @IsNumber({maxDecimalPlaces:2})
-  @MinLength(3)
   income: number;
 
+  @ApiProperty()
+  @MinLength(8)
+  identification_document: string;
 
+  @ApiProperty()
+  @IsOptional()
+  identification_document_url:string;
 
-  
+  @ApiProperty()
+  @IsOptional()
+  @MinLength(3)
+  home:string;
 
+  @ApiProperty()
+  @IsOptional()  
+  @IsNumber()
+  dependents:number;
+
+  @ApiProperty()
+  @IsOptional()   
+  @MinLength(3) 
+  academic_level:string;
+
+  @ApiProperty({type:referenceCLient})
+  @IsOptional()
+  references: referenceCLient;
 
 }

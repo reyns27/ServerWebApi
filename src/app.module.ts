@@ -21,7 +21,7 @@ import { ClientModule } from './client/client.module';
       database: 'masterdb_amez',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       autoLoadEntities:true,
-      synchronize: true,
+      synchronize: true
     }),
     UserModule,
     RolModule,

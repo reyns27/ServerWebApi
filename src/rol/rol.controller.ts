@@ -7,37 +7,31 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
 import { ApiResponse } from 'src/common/utils/ApiResponse';
 import { Rol } from './entities/rol.entity';
 
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+//@ApiBearerAuth()
+//@UseGuards(JwtAuthGuard)
 @ApiTags('rol')
 @Controller('rol')
 export class RolController {
   constructor(private readonly rolService: RolService) {}
 
   @Post()
-  async create(@Body() createRolDto: CreateRolDto):Promise<ApiResponse<Rol>> {
-
-    const result = await this.rolService.create(createRolDto);
-    return  new ApiResponse(true, 201, ["Create success"], result);
-
+  async create(@Body() createRolDto: CreateRolDto):Promise<Rol> {
+    return await this.rolService.create(createRolDto);
   }
 
   @Get()
-  async findAll():Promise<ApiResponse<Rol[]>> {
-    const result = await this.rolService.findAll();
-
-    return new ApiResponse(true, 200,["get all rol"], result);
+  async findAll():Promise<Rol[]> {
+    return await this.rolService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string):Promise<ApiResponse<Rol>> {
-    const result = await this.rolService.findOne(+id);
-    return new ApiResponse(true,200,["Get by id"],result);
+  async findOne(@Param('id') id: string):Promise<Rol> {
+   return await this.rolService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRolDto: UpdateRolDto) {
-    return this.rolService.update(+id, updateRolDto);
+  async update(@Param('id') id: string, @Body() updateRolDto: UpdateRolDto):Promise<Rol>  {
+    return await this.rolService.update(+id, updateRolDto);
   }
 
   @Delete(':id')

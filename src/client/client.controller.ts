@@ -7,37 +7,36 @@ import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+//@ApiBearerAuth()
+//@UseGuards(JwtAuthGuard)
 @ApiTags('client')
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post()
-  async create(@Body() createClientDto: CreateClientDto):Promise<ApiResponse<Client>> {
-
-    const result = await this.clientService.create(createClientDto);
-    return  new ApiResponse(true, 201, ["Create success"], result);
-
+  async create(@Body() createClientDto: CreateClientDto):Promise<Client> {
+    return await this.clientService.create(createClientDto);
   }
 
   @Get()
-  async findAll():Promise<ApiResponse<Client[]>> {
-    const result = await this.clientService.getAllClients();
-
-    return new ApiResponse(true, 200,["get all rol"], result);
+  async findAll():Promise<Client[]> {
+    return await this.clientService.getAllClients();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string):Promise<ApiResponse<Client>> {
-    const result = await this.clientService.getClient(+id);
-    return new ApiResponse(true,200,["Get by id"],result);
+  async findOne(@Param('id') id: string):Promise<Client> {
+    return await this.clientService.getClient(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
+  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto):Promise<Client>  {
     return this.clientService.updateClient(+id, updateClientDto);
+  }
+
+  @Get('/search/:term')
+  async search(@Param('term') term:string):Promise<Client[]> {
+    return await this.clientService.filterClient(term);
   }
 
   /*@Delete(':id')
