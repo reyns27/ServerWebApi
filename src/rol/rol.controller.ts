@@ -7,8 +7,8 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
 import { ApiResponse } from 'src/common/utils/ApiResponse';
 import { Rol } from './entities/rol.entity';
 
-//@ApiBearerAuth()
-//@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiTags('rol')
 @Controller('rol')
 export class RolController {

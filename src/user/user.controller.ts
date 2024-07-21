@@ -7,8 +7,8 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
 import { ResetPasswordDto } from './dto/resetPasswordDto';
 
 
-//@ApiBearerAuth()
-//@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiTags('user')
 @Controller('user')
 export class UserController {
