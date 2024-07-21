@@ -6,6 +6,7 @@ import { UserModule } from 'src/user/user.module';
 import { jwtConstants } from './constants';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthController } from './auth.controller';
 
 
 @Module({
@@ -17,6 +18,7 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '60m' },
     }),
   ],
+  controllers:[AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
