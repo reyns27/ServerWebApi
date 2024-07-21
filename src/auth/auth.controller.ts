@@ -8,7 +8,7 @@ export class AuthController {
     constructor(private authServices:AuthService){}
 
     @ApiTags('auth')
-    @Post()
+    @Post('login')
     async login(@Body() authDto:AuthDto){
        return await this.authServices.loginWithCredentials(authDto);
     }
