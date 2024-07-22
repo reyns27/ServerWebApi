@@ -1,3 +1,4 @@
+import { Company } from "src/company/entity/company.entity";
 import { Rol } from "src/rol/entities/rol.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -35,4 +36,7 @@ export class User {
   
     @ManyToOne(() => Rol, (rol) => rol.users)
     rol: Rol;
+
+    @ManyToOne(() => Company, (company) => company.users)
+    company:Company
 }
