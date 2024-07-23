@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { RolModule } from './rol/rol.module';
 import { AuthModule } from './auth/auth.module';
 import { ClientModule } from './client/client.module';
+import { CompanyModule } from './company/company.module';
 
 
 @Module({
@@ -24,7 +25,8 @@ import { ClientModule } from './client/client.module';
     UserModule,
     RolModule,
     AuthModule,
-    ClientModule
+    ClientModule,
+    CompanyModule
   ]
 })
 export class AppModule {}
