@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository,  } from '@nestjs/typeorm';
 import { RolService } from 'src/rol/rol.service';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -13,30 +13,39 @@ export class UserService {
   constructor(
     private rolServices: RolService,
     @InjectRepository(User) private usersRepository: Repository<User>,
+    private dataSource: DataSource
   ) {}
 
   //Create
   async create(createUserDto: CreateUserDto) {
-    const rolFound = await this.rolServices.findOne(createUserDto.rolId);
+    const queryRunner = this.dataSource.createQueryRunner();
+    
+    try {
+      const rolFound = await this.rolServices.findOne(createUserDto.rolId);
 
-    if (!rolFound) return new HttpException('error', HttpStatus.NOT_FOUND);
+      if (!rolFound) return new HttpException('ROL_ID_FOUND', HttpStatus.NOT_FOUND);
+  
+      const newUser = await this.usersRepository.findOne({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+  
+      if (newUser)
+        return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
 
-    const newUser = await this.usersRepository.findOne({
-      where: {
-        email: createUserDto.email,
-      },
-    });
-
-    if (newUser)
-      return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
-    const Hash = bcrypt.hashSync(createUserDto.password, 10);
-    const result = this.usersRepository.create({
-      ...createUserDto,
-      password: Hash,
-      status: 1,
-    });
-
-    return this.usersRepository.save(result);
+      const Hash = bcrypt.hashSync(createUserDto.password, 10);
+      const result = this.usersRepository.create({
+        ...createUserDto,
+        password: Hash,
+        status: 1,
+      });
+  
+      return this.usersRepository.save(result);
+    } catch (error) {
+      return new HttpException(error, HttpStatus.NOT_FOUND);
+    }
+   
   }
 
   //*-----------//GetAll------------------*/

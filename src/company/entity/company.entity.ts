@@ -21,7 +21,7 @@ export class Company {
     @Column({length:100, nullable:true})
     phone:string;
 
-    @Column('int')
+    @Column('int', {default:1})
     status: number;
   
     @CreateDateColumn()
