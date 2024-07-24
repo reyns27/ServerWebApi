@@ -35,14 +35,23 @@ export class UserService {
         return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
 
       const Hash = bcrypt.hashSync(createUserDto.password, 10);
+
+      queryRunner.startTransaction();
       const result = this.usersRepository.create({
         ...createUserDto,
         password: Hash,
         status: 1,
       });
   
-      return this.usersRepository.save(result);
+  
+    // Suggested code may be subject to a license. Learn more: ~LicenseLog:1003309608.
+      const userNew = await queryRunner.manager.save(result);
+      await queryRunner.commitTransaction();
+
+      return userNew;
     } catch (error) {
+
+      queryRunner.rollbackTransaction();
       return new HttpException(error, HttpStatus.NOT_FOUND);
     }
    
