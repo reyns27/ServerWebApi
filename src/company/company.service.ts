@@ -1,25 +1,35 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Company } from "./entity/company.entity";
-import { Repository } from "typeorm";
+import { Repository, DataSource } from "typeorm";
 import { UserService } from "src/user/user.service";
 import { CreateCompanyDto } from "./dto/create-company.dto";
 
 @Injectable()
 export class CompanyService {
     constructor(@InjectRepository(Company) private companyRepository: Repository<Company>,
-                private readonly _UserService: UserService){}
+                private readonly _UserService: UserService,
+                private readonly _DataSource:DataSource){}
 
       async create(_CreateCompanyDto: CreateCompanyDto): Promise<Company>{
+        let commit = this._DataSource.createQueryRunner();
         let user;
-        const company = this.companyRepository.create(_CreateCompanyDto);
-        const result = await this.companyRepository.save(company);
-        
-        if(result){
-            user = this._UserService.create(_CreateCompanyDto.User);
-        }
 
-        return user;
+        try {
+
+            commit.startTransaction();
+            const company = this.companyRepository.create(_CreateCompanyDto);
+            const result = await commit.manager.save(company);
+            if(result){
+                user = await this._UserService.create(_CreateCompanyDto.User);
+            }
+            commit.commitTransaction();
+            return result;
+        } catch (error) {
+            commit.rollbackTransaction();
+            throw new HttpException('CREATE_USER_FOUND',HttpStatus.BAD_REQUEST)
+        }
+       
     }
 
     async findAll(): Promise<Company[]> {

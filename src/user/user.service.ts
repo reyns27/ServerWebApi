@@ -13,7 +13,7 @@ export class UserService {
   constructor(
     private rolServices: RolService,
     @InjectRepository(User) private usersRepository: Repository<User>,
-    private dataSource: DataSource
+    private readonly dataSource: DataSource
   ) {}
 
   //Create
