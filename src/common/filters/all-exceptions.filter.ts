@@ -15,6 +15,7 @@ export class AllExceptionsFilter implements ExceptionFilter{
                 statusCode: status,
                 timestamp: new Date().toISOString(),
                 endPoint:request.url,
+                data:null,
                 message
             }
         });

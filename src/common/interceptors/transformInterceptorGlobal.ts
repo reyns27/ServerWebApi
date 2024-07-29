@@ -14,7 +14,8 @@ export class TransformInterceptorGlobalResponseApi implements NestInterceptor {
                     statusCode:response.statusCode,
                     timestamp:new Date().toISOString(),
                     endPoint:request.url,
-                    data
+                    data,
+                    message:null
                 }
             }))
         )
