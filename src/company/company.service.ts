@@ -4,6 +4,7 @@ import { Company } from "./entity/company.entity";
 import { Repository, DataSource } from "typeorm";
 import { UserService } from "src/user/user.service";
 import { CreateCompanyDto } from "./dto/create-company.dto";
+import { UpdateCompanyDto } from "./dto/update-company.dto";
 
 @Injectable()
 export class CompanyService {
@@ -20,20 +21,25 @@ export class CompanyService {
             commit.startTransaction();
             const company = this.companyRepository.create(_CreateCompanyDto);
             const result = await commit.manager.save(company);
+            _CreateCompanyDto.User.rolId = 1;
+
             if(result){
                 user = await this._UserService.create(_CreateCompanyDto.User);
             }
             commit.commitTransaction();
             return result;
+
         } catch (error) {
             commit.rollbackTransaction();
-            throw new HttpException('CREATE_USER_FOUND',HttpStatus.BAD_REQUEST)
+            throw new HttpException('CREATE_USER_FOUND',HttpStatus.BAD_REQUEST);
         }
        
     }
 
     async findAll(): Promise<Company[]> {
-        return await this.companyRepository.find();
+        return await this.companyRepository.find({
+            relations:['users']
+        });
     }
 
 
@@ -53,6 +59,35 @@ export class CompanyService {
              throw new HttpException(error,HttpStatus.BAD_REQUEST);
         }
         
+    }
+
+    async update(id: number, _UpdateCompanyDto: UpdateCompanyDto): Promise<Company> {
+        const _Company = await this.companyRepository.findOne({
+            where:{
+                id
+            }
+        });
+
+        if(!_Company){
+            throw new BadRequestException("USER_ID_NOT_EXISTS");
+        }
+
+        try {
+            const result = await this.companyRepository.update(id,_UpdateCompanyDto);
+
+            if(result.affected == 1){
+                return await this.companyRepository.findOne({
+                    where:{
+                        id
+                    }
+                });
+            }
+
+            throw new HttpException('USER_NOT_UPDATE',HttpStatus.EXPECTATION_FAILED);
+
+        } catch (error) {
+            throw new HttpException(error,HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

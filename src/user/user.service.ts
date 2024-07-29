@@ -32,7 +32,7 @@ export class UserService {
       });
   
       if (newUser)
-        return new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
+        throw new HttpException('ERROR_EMAIL_CONFLICT', HttpStatus.CONFLICT);
 
       const Hash = bcrypt.hashSync(createUserDto.password, 10);
 
@@ -52,7 +52,7 @@ export class UserService {
     } catch (error) {
 
       queryRunner.rollbackTransaction();
-      return new HttpException(error, HttpStatus.NOT_FOUND);
+      throw new HttpException(error, HttpStatus.NOT_FOUND);
     }
    
   }
