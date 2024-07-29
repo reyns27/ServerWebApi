@@ -10,12 +10,12 @@ export class TransformInterceptorGlobalResponseApi implements NestInterceptor {
         return next.handle().pipe(
             map((data) => ({
                 success: true,
+                statusCode:response.statusCode,
+                data,
+                message:null,
                 metadata:{
-                    statusCode:response.statusCode,
                     timestamp:new Date().toISOString(),
                     endPoint:request.url,
-                    data,
-                    message:null
                 }
             }))
         )

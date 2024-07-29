@@ -11,13 +11,13 @@ export class AllExceptionsFilter implements ExceptionFilter{
 
         response.status(status).json({
             success: false,
-            metadata:{
-                statusCode: status,
-                timestamp: new Date().toISOString(),
-                endPoint:request.url,
+                statusCode:response.statusCode,
                 data:null,
-                message
-            }
+                message:message.toString(),
+                metadata:{
+                    timestamp:new Date().toISOString(),
+                    endPoint:request.url,
+                }
         });
 
     }
