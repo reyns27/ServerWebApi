@@ -13,7 +13,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             success: false,
             statusCode: response.statusCode,
             data: null,
-            message: message.toString(),
+             message,
             metadata: {
                 timestamp: new Date().toISOString(),
                 endPoint: request.url,

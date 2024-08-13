@@ -1,14 +1,18 @@
+import { Company } from "./company";
+import { Rol } from "./rol";
+
 export interface User {
     Id: number;
-    Name: string;
-    email: string;
-    lastName: string;
-    status: number;
-    rolId: number;
     userName: string;
-    updateAt: Date;
-    createAt: Date;
+    name: string;
+    lastName: string;
+    email: string;
     password: string;
-    token_Password: null;
+    rolId: number;
+    status: number;
+    createdAt: Date;
+    updateAt: Date;
+    rol: Rol;
+    company:Company
 }
 

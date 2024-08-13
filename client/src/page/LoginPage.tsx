@@ -1,28 +1,78 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/AuthState";
 import { AuthLogin, profileResquest } from "../api/IAuthEndPoint";
+import wAlert from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(wAlert);
 
 const LoginPage = () => {
     const setToken = useAuthStore(state => state.setToken);
     const setProfile = useAuthStore(state => state.setProfile);
     const Navigate = useNavigate();
     
+    
+
+
+
     const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const email = (e.currentTarget.elements[0] as HTMLInputElement).value;
       const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
   
-      const { user } = await AuthLogin(email, password).then(data => {
-        console.log(data.data.Token);
-        setToken(data.data.Token);
+      if(email == '' || email == null)
+        {
+          MySwal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Complete el campo email!",
+          });
+          return;
+        }
+
+
+        if(password == '' || password == null)
+        {
+          MySwal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Complete el campo contraseña!",
+          });
+          return;
+        }
+  
+      const { user } = await AuthLogin(email, password).then(({data}) => {
+        if(!data.success){
+          MySwal.fire({
+            title: <p>Autenticando invalida.....</p>,
+            timer: 2000,
+            didOpen: () => {
+              // `MySwal` is a subclass of `Swal` with all the same instance & static methods
+              MySwal.showLoading()
+            }
+          }).then(() => {
+            return null;
+          });
+        }
+        setToken(data.data.token);
         return data.data;
-        
       });
   
      
       await profileResquest(user.Id).then(({data}) => {
-        setProfile(data);
-        return Navigate('/home');
+        setProfile(data.data);
+        MySwal.fire({
+          title: <p>Hello World</p>,
+          timer: 2000,
+          didOpen: () => {
+            // `MySwal` is a subclass of `Swal` with all the same instance & static methods
+            MySwal.showLoading()
+          }
+        }).then(() => {
+          MySwal.close();
+          return Navigate('/home');
+        });
+        
       });
 
     };
@@ -35,7 +85,7 @@ const LoginPage = () => {
                 <p className="text-center text-violet-400">Bienvenido a la app</p>
 
                 <form onSubmit={HandleSubmit} className="flex flex-col gap-2 mt-4">
-                    <input type="email" placeholder="email" className="border-2 border-violet-400 rounded-xl p-2 hover:border-violet-600 focus:border-violet-600 active:border-violet-600" />
+                    <input type="email" placeholder="email" className="border-2 border-violet-400 rounded-xl p-2 hover:border-violet-600 focus:border-violet-600 active:border-violet-600"/>
 
                     <input type="password" placeholder="constraseña" className="border-2 border-violet-400 rounded-xl p-2 hover:border-violet-600 focus:border-violet-600 active:border-violet-600" />
 
