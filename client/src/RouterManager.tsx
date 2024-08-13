@@ -2,11 +2,16 @@ import App from "./App";
 import LoginPage from "./page/LoginPage";
 import PageFound from "./page/PageFound";
 import { RouteObject, useRoutes } from 'react-router-dom';
-//import { useAuthStore } from "./state/AuthState";
+import RegisterPage from "./page/registerPage";
+import DashboardView from "./page/views/Dashboard";
+import HomePage from "./page/Home";
+import ProtectedRoute from "./libs/ProtectedRoute";
+import { useAuthStore } from "./state/AuthState";
+import ProfileView from "./page/views/Profile";
 
 
 const RouterManager = () => {
-//const isAuth = useAuthStore(state => state.isAuth);
+const isAuth = useAuthStore(state => state.isAuth);
 const routerPath: RouteObject[] = [{
     path: '/',
     element: <App />,
@@ -15,20 +20,24 @@ const routerPath: RouteObject[] = [{
             index: true,
             element: <LoginPage />,
         },
-        /*{
-            path: '/Dashboard',
-            element: <ProtectedRoute isAllowed={isAuth} children={<Dashboard />} />,
+        {
+            path: 'register',
+            element: <RegisterPage />
+        },
+        {
+            path: 'home',
+            element: <ProtectedRoute isAllowed={isAuth} children={<HomePage />} />,
             children: [
                 {
                     index: true,
-                    element: <RoomsChat />
+                    element: <DashboardView />
                 },
                 {
-                    path: 'chat',
-                    element: <ChatComponent />
+                    path: 'profile',
+                    element: <ProfileView />
                 }
             ]
-        },*/
+        },
         {
             path: '*',
             element: <PageFound />

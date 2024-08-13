@@ -3,24 +3,35 @@ import { IsObject, MaxLength, MinLength } from "class-validator";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 
 export class CreateCompanyDto {
-    @ApiProperty()
+    @ApiProperty({
+        example:'',
+        required:true
+    })
     @MaxLength(100)
     @MinLength(3)
     name: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'',
+    })
     @MaxLength(100)
     description:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'',
+    })
     @MaxLength(100)
     activity:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'',
+    })
     @MaxLength(100)
     address:string;
 
-    @ApiProperty()
+    @ApiProperty({
+        example:'',
+    })
     @MaxLength(100)
     phone:string;
 
