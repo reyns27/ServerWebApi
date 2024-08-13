@@ -1,6 +1,6 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
 import NotAuthPage from '../page/NotAuth';
+import { Outlet } from 'react-router-dom';
 
 interface Props {
     isAllowed: boolean;
