@@ -56,7 +56,7 @@ export class Client {
     @Column('int',{ default:1})
     status: number;
 
-    @Column({ nullable: false, default:0 })
+    @Column({nullable:false})
     companyId: number;
   
     @CreateDateColumn()
