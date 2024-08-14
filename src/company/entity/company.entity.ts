@@ -4,29 +4,26 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 @Entity()
 export class Company {
     @PrimaryGeneratedColumn()
-    id:number
+    id: number
 
-    @Column({length:100, unique:true})
+    @Column({ length: 100, unique: true })
     name: string;
 
-    @Column({length:100, nullable:true})
-    description:string;
+    @Column({ length: 100, nullable: true })
+    description: string;
 
-    @Column({length:100, nullable:true})
-    activity:string;
+    @Column({ length: 100, nullable: true })
+    address: string;
 
-    @Column({length:100, nullable:true})
-    address:string;
+    @Column({ length: 100, nullable: true })
+    phone: string;
 
-    @Column({length:100, nullable:true})
-    phone:string;
-
-    @Column('int', {default:1})
+    @Column('int', { default: 1 })
     status: number;
-  
+
     @CreateDateColumn()
     createdAt: Date;
-  
+
     @UpdateDateColumn()
     updateAt: Date;
 

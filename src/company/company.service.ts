@@ -5,6 +5,7 @@ import { Repository, DataSource } from "typeorm";
 import { UserService } from "src/user/user.service";
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import { UpdateCompanyDto } from "./dto/update-company.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 
 @Injectable()
 export class CompanyService {
@@ -21,11 +22,17 @@ export class CompanyService {
             commit.startTransaction();
             const company = this.companyRepository.create(_CreateCompanyDto);
             const result = await commit.manager.save(company);
-            _CreateCompanyDto.User.rolId = 1;
+
+             const _UserCompany:CreateUserDto = {
+                ..._CreateCompanyDto.User,
+                rolId:1,
+                userName:_CreateCompanyDto.User.email,
+            }
 
             if(result){
-                user = await this._UserService.create(_CreateCompanyDto.User);
+                user = await this._UserService.create(_UserCompany);
             }
+            
             commit.commitTransaction();
             return result;
 
