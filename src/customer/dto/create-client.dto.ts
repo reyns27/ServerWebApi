@@ -5,6 +5,11 @@ import { referenceCLient } from "./reference-client.dto";
 
 export class CreateClientDto{
 
+  @ApiProperty({
+    required:true
+  })
+  companyId:number;
+  
   @ApiProperty()
   @MinLength(2)
   @MaxLength(40)

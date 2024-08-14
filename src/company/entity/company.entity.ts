@@ -1,3 +1,4 @@
+import { Client } from "src/customer/entities/client.entity";
 import { User } from "src/user/entities/user.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -29,4 +30,7 @@ export class Company {
 
     @OneToMany(() => User, (user) => user.company)
     users: User[];
+
+    @OneToMany(() => Client, (client) => client.company)
+    clients: Client[];
 }

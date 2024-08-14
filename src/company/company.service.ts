@@ -24,10 +24,11 @@ export class CompanyService {
             const result = await commit.manager.save(company);
 
              const _UserCompany:CreateUserDto = {
-                ..._CreateCompanyDto.User,
-                rolId:1,
-                userName:_CreateCompanyDto.User.email,
-            }
+                 ..._CreateCompanyDto.User,
+                 rolId: 1,
+                 userName: _CreateCompanyDto.User.email,
+                 companyId: result.id
+             }
 
             if(result){
                 user = await this._UserService.create(_UserCompany);

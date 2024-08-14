@@ -1,15 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { referenceCLient } from "../dto/reference-client.dto";
+import { Company } from "src/company/entity/company.entity";
 
-
-class referenceObject  {
-    
-    reference_type:string;
-   
-    name:string;
-    
-    phone:string;
-}
 
 @Entity()
 export class Client {
@@ -64,10 +56,16 @@ export class Client {
     @Column('int',{ default:1})
     status: number;
 
+    @Column({ nullable: false, default:0 })
+    companyId: number;
   
     @CreateDateColumn()
     createdAt: Date;
   
     @UpdateDateColumn()
     updateAt: Date;
+
+
+    @ManyToOne(() => Company, (company) => company.clients)
+    company: Company
 }

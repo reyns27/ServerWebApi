@@ -4,7 +4,7 @@ import { Client } from "./entities/client.entity";
 import { Like, Repository } from "typeorm";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
-import { ApiResponse } from "src/common/utils/ApiResponse";
+
 
 
 @Injectable()
