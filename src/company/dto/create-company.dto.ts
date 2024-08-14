@@ -57,7 +57,7 @@ export class CreateCompanyDto {
     phone: string;
 
     @ApiProperty({
-        type: CreateUserDto,
+        type: UserCompanyDto,
         required: true
     })
     @IsObject()
