@@ -15,11 +15,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     TypeOrmModule.forRoot({
       type: 'postgres',
       ssl:true,
-      host: 'dpg-cqd5iuhu0jms73e9amf0-a.oregon-postgres.render.com',
+      host: 'dpg-cr3iiraj1k6c73dnoqo0-a.oregon-postgres.render.com',
       port: 5432,
       username: 'master',
-      password: 'Hy9lIQsbbshlFVzAqpDHoywg4ibNlWpy',
-      database: 'masterdb_amez',
+      password: 'ZpfzCewIc74bBOeGZjYxlHiYLlcCJVv7',
+      database: 'masterdb_2y6l',
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       autoLoadEntities:true,
       synchronize: true
