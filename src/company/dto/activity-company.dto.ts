@@ -9,6 +9,6 @@ class ActivityObject {
 
 export class ActivityCompany {
     @ApiProperty({ type: [ActivityObject] })
-    references: ActivityObject[]
+    ActivityCompany: ActivityObject[]
 
 }
