@@ -4,12 +4,14 @@ import { Client } from "./entities/client.entity";
 import { Like, Repository } from "typeorm";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
+import { MailerService } from "@nestjs-modules/mailer";
 
 
 
 @Injectable()
 export class ClientService {
-    constructor(@InjectRepository(Client) private clientRepository:Repository<Client>){}
+    constructor(@InjectRepository(Client) private clientRepository:Repository<Client>,
+                _MailerService:MailerService){}
 
     async create(createClientDto:CreateClientDto):Promise<Client>{
          

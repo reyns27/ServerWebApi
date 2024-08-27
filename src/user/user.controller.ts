@@ -5,10 +5,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
 import { ResetPasswordDto } from './dto/resetPasswordDto';
+import { EmailDto } from './dto/req-email-user.dto';
 
 
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+//@ApiBearerAuth()
+//@UseGuards(JwtAuthGuard)
 @ApiTags('user')
 @Controller('user')
 export class UserController {
@@ -39,9 +40,22 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
+  @Post('change/password')
+  async changePassword(@Body() _email:EmailDto){
+    const result = await this.userService.changePassword(_email.Email);
+    console.log(result);
+    return result;
+  }
+
   @Post('reset/password')
   async resetPassword(@Body() resetPasswordDto:ResetPasswordDto){
     const result = await this.resetPassword(resetPasswordDto);
+  }
+
+  @Post("checkExistingEmail")
+  async checkExistingEmail(@Body() _email:EmailDto){
+    const result = await this.userService.getEmail(_email.Email);
+    return result;
   }
 
 }

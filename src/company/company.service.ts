@@ -11,12 +11,13 @@ import { CreateUserDto } from "src/user/dto/create-user.dto";
 export class CompanyService {
     constructor(@InjectRepository(Company) private companyRepository: Repository<Company>,
                 private readonly _UserService: UserService,
-                private readonly _DataSource:DataSource){}
+                private readonly _DataSource:DataSource,
+                ){}
 
       async create(_CreateCompanyDto: CreateCompanyDto): Promise<Company>{
         let commit = this._DataSource.createQueryRunner();
         let user;
-
+        
         try {
 
             commit.startTransaction();

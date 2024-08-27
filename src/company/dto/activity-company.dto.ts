@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 class ActivityObject {
     @ApiProperty()
     idActivity: number;
-    @ApiProperty()
+    @ApiProperty() 
     description: string;
 }
 
