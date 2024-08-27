@@ -41,7 +41,7 @@ export class CreateCompanyDto {
 
     @ApiProperty({type:ActivityCompany})
     @IsOptional()
-    ActivityCompany: ActivityCompany;
+    activities: ActivityCompany;
 
     @ApiProperty({
         example: '',

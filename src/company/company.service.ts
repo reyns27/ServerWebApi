@@ -83,12 +83,13 @@ export class CompanyService {
         });
 
         if(!_Company){
-            throw new BadRequestException("USER_ID_NOT_EXISTS");
+            throw new BadRequestException("COMPANY_ID_NOT_EXISTS");
         }
 
         try {
             const result = await this.companyRepository.update(id,_UpdateCompanyDto);
 
+            console.log(result);
             if(result.affected == 1){
                 return await this.companyRepository.findOne({
                     where:{
@@ -97,6 +98,7 @@ export class CompanyService {
                 });
             }
 
+            
             throw new HttpException('USER_NOT_UPDATE',HttpStatus.EXPECTATION_FAILED);
 
         } catch (error) {

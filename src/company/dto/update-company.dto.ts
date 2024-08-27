@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNumber, IsOptional, MaxLength, MinLength } from "class-validator";
+import { ActivityCompany } from "./activity-company.dto";
 
 export class UpdateCompanyDto {
     @ApiProperty()
@@ -13,10 +14,9 @@ export class UpdateCompanyDto {
     @IsOptional()
     description:string;
 
-    @ApiProperty()
-    @MaxLength(100)
+    @ApiProperty({type:ActivityCompany})
     @IsOptional()
-    activity:string;
+    activities: ActivityCompany;
 
     @ApiProperty()
     @MaxLength(100)
