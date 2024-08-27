@@ -6,6 +6,7 @@ import { UserService } from "src/user/user.service";
 import { CreateCompanyDto } from "./dto/create-company.dto";
 import { UpdateCompanyDto } from "./dto/update-company.dto";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
+import { User } from "src/user/entities/user.entity";
 
 @Injectable()
 export class CompanyService {
@@ -21,24 +22,28 @@ export class CompanyService {
         try {
 
             commit.startTransaction();
-            const company = this.companyRepository.create(_CreateCompanyDto);
+            const company =  commit.manager.create(Company, _CreateCompanyDto);
             const result = await commit.manager.save(company);
 
              const _UserCompany:CreateUserDto = {
                  ..._CreateCompanyDto.User,
                  rolId: 1,
                  userName: _CreateCompanyDto.User.email,
-                 companyId: result.id
+                 companyId: result.id,
+                 status: 1
              }
 
+
             if(result){
-                user = await this._UserService.create(_UserCompany);
+                user =  commit.manager.create(User,_UserCompany);
+                user = await commit.manager.save(user);
             }
             
             commit.commitTransaction();
             return result;
 
         } catch (error) {
+            console.log(error);
             commit.rollbackTransaction();
             throw new HttpException('CREATE_USER_FOUND',HttpStatus.BAD_REQUEST);
         }

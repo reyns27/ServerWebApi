@@ -34,4 +34,6 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNumber()
   rolId?: number;
+
+  status?: number;
 }
