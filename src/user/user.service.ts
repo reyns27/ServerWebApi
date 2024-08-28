@@ -105,7 +105,8 @@ export class UserService {
       },
     });
 
-    return _result.email;
+    if(_result) return true;
+    return false;
   }
 
   //*-----------Update------------------*/

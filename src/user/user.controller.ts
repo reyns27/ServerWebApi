@@ -50,6 +50,7 @@ export class UserController {
   @Post('reset/password')
   async resetPassword(@Body() resetPasswordDto:ResetPasswordDto){
     const result = await this.resetPassword(resetPasswordDto);
+    return result;
   }
 
   @Post("checkExistingEmail")
