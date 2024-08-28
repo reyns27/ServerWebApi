@@ -94,8 +94,9 @@ export class UserService {
   }
 
   //*-----------//Get Id------------------*/
-  getEmail(email: string) {
-    return this.usersRepository.findOne({
+  async getEmail(email: string) {
+    
+    const _result = await this.usersRepository.findOne({
       select: {
         password: false,
       },
@@ -103,6 +104,8 @@ export class UserService {
         email: email,
       },
     });
+
+    return _result.email;
   }
 
   //*-----------Update------------------*/
