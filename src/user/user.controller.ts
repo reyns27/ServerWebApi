@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
 import { ResetPasswordDto } from './dto/resetPasswordDto';
 import { EmailDto } from './dto/req-email-user.dto';
+import { MorganInterceptor } from 'nest-morgan';
 
 
 //@ApiBearerAuth()
@@ -20,6 +21,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseInterceptors(MorganInterceptor('combined'))
   @Get()
   findAll() {
     return this.userService.findAll();

@@ -8,6 +8,7 @@ import { ClientModule } from './customer/client.module';
 import { CompanyModule } from './company/company.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { MorganModule } from 'nest-morgan';
 
 
 @Module({
@@ -40,7 +41,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     RolModule,
     AuthModule,
     ClientModule,
-    CompanyModule
+    CompanyModule,
+    MorganModule
   ]
 })
 export class AppModule {}
