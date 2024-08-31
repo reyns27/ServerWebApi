@@ -2,6 +2,25 @@ version: '3'
 
 
 services:
+  prestamoapi:
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: prestamoapi-docker
+    container_name: prestamoapi
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - "5000:5000"
+    # working_dir: /var/www/prestamoapi
+    #environment:
+      #MONGODB: ${MONGODB}
+      #PORT: ${PORT}
+      #DEFAULT_LIMIT: ${DEFAULT_LIMIT}
+    # volumes:
+    #   - ./:/var/www/prestamoapi
+
   db:
     image: postgres:14.3
     restart: always
