@@ -32,7 +32,7 @@ import { MorganModule } from 'nest-morgan';
       host:'presmatodbserver',
       port: 5432,
       //username: 'master',
-      username:'root',
+      username:'postgres',
       //password: 'ZpfzCewIc74bBOeGZjYxlHiYLlcCJVv7',
       password:'prestamo.master.api**',
       //database: 'masterdb_2y6l',
