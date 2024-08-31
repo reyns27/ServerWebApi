@@ -1,23 +1,24 @@
-# Suggested code may be subject to a license. Learn more: ~LicenseLog:141305804.
-FROM node:18.20-alpine as build
-
+FROM node:18-alpine as deps
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-RUN npm install
+
+FROM node:18-alpine as builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
+RUN yarn build
 
-RUN npm run build
 
-FROM node:18.20-alpine
-
+FROM node:18-alpine as runner
 WORKDIR /app
 
-COPY --from=build /app/dist ./dist
+COPY package.json yarn.lock ./
+RUN yarn install --prod
+COPY --from=builder /app/dist ./dist
 
-EXPOSE 8000
-
-CMD ["npm", "start"]
-
+CMD [ "node","dist/main" ]

@@ -8,8 +8,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: odin.master.api**
-      POSTGRES_DB: odindb
-    container_name: odindbserver
+      POSTGRES_PASSWORD: prestamo.master.api**
+      POSTGRES_DB: prestamodb
+    container_name: presmatodbserver
     volumes:
       - ./postgres:/var/lib/postgresql/data
