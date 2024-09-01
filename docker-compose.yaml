@@ -9,13 +9,10 @@ services:
       context: .
       dockerfile: Dockerfile
     image: prestamoapi-docker
-    networks:
-      backend:
-        driver: bridge
     container_name: prestamoapi
     restart: always # reiniciar el contenedor si se detiene
     ports:
-      - "5000:5000"
+      - "5000:3000"
     # working_dir: /var/www/prestamoapi
     #environment:
       #MONGODB: ${MONGODB}
@@ -26,9 +23,6 @@ services:
 
   db:
     image: postgres:14.3
-    networks:
-      backend:
-        driver: bridge
     restart: always
     ports:
       - "5432:5432"
