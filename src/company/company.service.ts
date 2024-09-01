@@ -7,6 +7,7 @@ import { CreateCompanyDto } from "./dto/create-company.dto";
 import { UpdateCompanyDto } from "./dto/update-company.dto";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { User } from "src/user/entities/user.entity";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CompanyService {
@@ -25,11 +26,13 @@ export class CompanyService {
             const company =  commit.manager.create(Company, _CreateCompanyDto);
             const result = await commit.manager.save(company);
 
+            const Hash = bcrypt.hashSync(_CreateCompanyDto.User.password, 10);
              const _UserCompany:CreateUserDto = {
                  ..._CreateCompanyDto.User,
                  rolId: 1,
                  userName: _CreateCompanyDto.User.email,
                  companyId: result.id,
+                 password: Hash,
                  status: 1
              }
 
