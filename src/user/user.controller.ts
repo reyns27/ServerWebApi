@@ -9,8 +9,8 @@ import { EmailDto } from './dto/req-email-user.dto';
 import { MorganInterceptor } from 'nest-morgan';
 
 
-//@ApiBearerAuth()
-//@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiTags('user')
 @Controller('user')
 export class UserController {
