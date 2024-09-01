@@ -9,6 +9,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: prestamoapi-docker
+    networks:
+      - bridge
     container_name: prestamoapi
     restart: always # reiniciar el contenedor si se detiene
     ports:
@@ -23,6 +25,8 @@ services:
 
   db:
     image: postgres:14.3
+    networks:
+      - bridge
     restart: always
     ports:
       - "5432:5432"
